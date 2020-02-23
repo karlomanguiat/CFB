@@ -20,6 +20,23 @@ import pandas as pd
 import csv
 import math
 
+def addColumnName(df, win_size):
+	header = []
+	for i in range(len(df.columns) - 1):
+		if(i % 5 == 0): 
+			header.append("ZIMJ680101")
+		elif(i % 5 == 1): 
+			header.append("BHAR880101")
+		elif(i % 5 == 2): 
+			header.append("HOPT810101")
+		elif(i % 5 == 3): 
+			header.append("GRAR740102")
+		elif(i % 5 == 4): 
+			header.append("BEGF750102")
+
+	header.append("Labels")
+	df.columns = header
+	return df
 def slidingWindow():
 	win_size = 5                                                        # Specify the size of the sliding window
 
@@ -57,6 +74,12 @@ def slidingWindow():
 	f.close()
 	fo.close()
 
+	df = pd.read_csv("allMatrix_w5.csv", skiprows=1)
+	df = addColumnName(df, win_size)
+
+	df.to_csv("newAllMatrix.csv")
+
+	print(df)
 
 	if os.path.exists("allMatrix.csv"):
 	  os.remove("allMatrix.csv")
@@ -115,7 +138,7 @@ def addLabels(fastaLength, mat1, mat2, mat3, mat4, mat5):
 		label = []
 
 		for i in range(fastaLength[k]):
-			label.append(0)
+			label.append(99)
 
 		# Convert to numpy array
 		labels = np.array(label)
