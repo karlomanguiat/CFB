@@ -20,9 +20,9 @@ import pandas as pd
 import csv
 import math
 
-def addColumnName(df, win_size):
-	header = []
-	count = 1
+def addColumnName(df):
+	header, count = [], 1
+
 	for i in range(len(df.columns) - 1):
 		if(i % 5 == 0): 
 			header.append("ZIMJ680101." + str(count))
@@ -78,7 +78,7 @@ def slidingWindow():
 	fo.close()
 
 	df = pd.read_csv("allMatrix_w5.csv", skiprows=1)
-	df = addColumnName(df, win_size)
+	df = addColumnName(df)
 	df.to_csv("newAllMatrix.csv", index=False)
 
 
