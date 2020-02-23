@@ -41,11 +41,11 @@ def addColumnName(df):
 	return df
 
 def slidingWindow():
-	win_size = 5                                                        # Specify the size of the sliding window
+	win_size = 3                                                        # Specify the size of the sliding window
 
 	f = open('allMatrix.csv', 'r')                                    	# name of the file to be processed
 	re = csv.reader(f, quoting=csv.QUOTE_NONE)                          
-	fo = open('allMatrix_w5.csv', 'w')                                    # name of the output file
+	fo = open('allMatrix_w3.csv', 'w')                                    # name of the output file
 	wr = csv.writer(fo, quoting=csv.QUOTE_NONE, lineterminator='\n')
 
 	window = []
@@ -77,14 +77,14 @@ def slidingWindow():
 	f.close()
 	fo.close()
 
-	df = pd.read_csv("allMatrix_w5.csv", skiprows=1)
+	df = pd.read_csv("allMatrix_w3.csv", skiprows=1)
 	df = addColumnName(df)
 	df.to_csv("newAllMatrix.csv", index=False)
 
 
 	if os.path.exists("allMatrix.csv"):
 	  os.remove("allMatrix.csv")
-	  os.remove("allMatrix_w5.csv")
+	  os.remove("allMatrix_w3.csv")
 	else:
 	  print("The file does not exist")
 
