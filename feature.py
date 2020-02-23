@@ -83,6 +83,7 @@ def slidingWindow():
 
 	if os.path.exists("allMatrix.csv"):
 	  os.remove("allMatrix.csv")
+	  os.remove("allMatrix_w5.csv")
 	else:
 	  print("The file does not exist")
 
