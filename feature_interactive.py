@@ -84,7 +84,7 @@ def slidingWindow(allMatrix):
 	f.close()
 	fo.close()
 
-	df = pd.read_csv("allMatrix_w3.csv", skiprows=1)
+	df = pd.read_csv("allMatrix_w9.csv", skiprows=1)
 	df = addColumnName(df)
 	filename = "newAllMatrix.csv"
 	df.to_csv(filename, index=False)
@@ -92,7 +92,7 @@ def slidingWindow(allMatrix):
 
 	if os.path.exists("allMatrix.csv"):
 	  os.remove("allMatrix.csv")
-	  os.remove("allMatrix_w3.csv")
+	  os.remove("allMatrix_w9.csv")
 	else:
 	  print("The file does not exist")
 
