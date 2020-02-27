@@ -44,7 +44,6 @@ def addColumnName(df):
 	return df
 
 def slidingWindow(allMatrix):
-
 	df = pd.DataFrame(allMatrix)
 	fileName = "allMatrix.csv"
 	df.to_csv(fileName, index=False, header = ["ZIMJ680101", "BHAR880101","HOPT810101","GRAR740102","BEGF750102", "Labels"])
