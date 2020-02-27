@@ -43,8 +43,13 @@ def addColumnName(df):
 	df.columns = header
 	return df
 
-def slidingWindow():
-	win_size = 3                                                        # Specify the size of the sliding window
+def slidingWindow(allMatrix):
+
+	df = pd.DataFrame(allMatrix)
+	fileName = "allMatrix.csv"
+	df.to_csv(fileName, index=False, header = ["ZIMJ680101", "BHAR880101","HOPT810101","GRAR740102","BEGF750102", "Labels"])
+
+	win_size = 9                                                        # Specify the size of the sliding window
 
 	f = open('allMatrix.csv', 'r')                                    	# name of the file to be processed
 	re = csv.reader(f, quoting=csv.QUOTE_NONE)                          
@@ -82,7 +87,8 @@ def slidingWindow():
 
 	df = pd.read_csv("allMatrix_w3.csv", skiprows=1)
 	df = addColumnName(df)
-	df.to_csv("newAllMatrix.csv", index=False)
+	filename = "newAllMatrix.csv"
+	df.to_csv(filename, index=False)
 
 
 	if os.path.exists("allMatrix.csv"):
@@ -91,13 +97,7 @@ def slidingWindow():
 	else:
 	  print("The file does not exist")
 
-def getFastaLength(fastaLength):
-	count = 0
-
-	for leng in fastaLength: 
-		count += leng
-
-	return count
+	return filename
 
 def initMatrices(conv_seq):
 	# Convert to matrix and print
@@ -119,7 +119,7 @@ def initMatrices(conv_seq):
 
 	return mat1, mat2, mat3, mat4, mat5
 
-def addLabels(fastaLength, mat1, mat2, mat3, mat4, mat5):
+def getPrediction(fastaLength, mat1, mat2, mat3, mat4, mat5, algo):
 	firstIteration = True
 	allMatrix = np.array([])
 
@@ -141,30 +141,40 @@ def addLabels(fastaLength, mat1, mat2, mat3, mat4, mat5):
 
 		# Combine two matrices
 		finalMatrix = np.append(newmat1, col_vec, axis=1)
+		filename = slidingWindow(finalMatrix)
 
-		if firstIteration: 
-			allMatrix = finalMatrix
-			firstIteration = False
-		else: allMatrix = np.concatenate((allMatrix, finalMatrix))
+		test = pd.read_csv(filename)
+		test_labels = np.array(test.pop('Labels'))
+
+		my_clf = joblib.load("./model/balance_rf_model.joblib")
+		predictions = my_clf.predict(test)
+		print(predictions)
+		# predictions = my_clf.predict(test)
+		print(fastaLength[k], len(predictions))
+
+		if os.path.exists("newAllMatrix.csv"):
+		  os.remove("newAllMatrix.csv")
+		else: print("The file does not exist")
 
 	return allMatrix
 
-def toCSV(allMatrix):
-	df = pd.DataFrame(allMatrix)
-	fileName = "allMatrix.csv"
-	df.to_csv(fileName, index=False, header = ["ZIMJ680101", "BHAR880101","HOPT810101","GRAR740102","BEGF750102", "Labels"])
-
 
 def main():
+	testFasta = input("Enter input fasta filename: ")
+	algo = input("Enter machine learning algorithm (svm, rf, nb): ")
+
 	# Load the 'xxxxx.fasta' sequence set
-	alphasyn_seq = load_fasta_file("benchmark.fasta")
-	alphasyn_seq1 = load_fasta_file("benchmark.fasta")
+	alphasyn_seq = load_fasta_file(testFasta)
+	alphasyn_seq1 = load_fasta_file(testFasta)
 
 	# Get array of lengths
-	fastaLength = []
+	fastaLength, fastaSeq, fastaID = [], [], []
 
 	for seq in alphasyn_seq1: 
+		# print(seq)
 		fastaLength.append(len(seq.data))
+		fastaSeq.append(seq.data)
+		fastaID.append(seq.identifier)
 
 
 	# Set of features
@@ -188,29 +198,10 @@ def main():
 	fs.add(get_aaindex_file("BEGF750102"))
 	# print(fs)
 
+
 	conv_seq = fs(alphasyn_seq)
 	mat1, mat2, mat3, mat4, mat5 = initMatrices(conv_seq)
-	allMatrix = addLabels(fastaLength, mat1, mat2, mat3, mat4, mat5)
-
-	toCSV(allMatrix)
-
-	slidingWindow()
-
-	test = pd.read_csv("newAllMatrix.csv")
-	test_labels = np.array(test.pop('Labels'))
-
-	my_clf = joblib.load("svm_model.joblib")
-	predictions = my_clf.decision_function(test)
-	pred = np.argmax(predictions)
-	print(pred)
-
-	# print("Counts of label '1': {}".format(sum(predictions == 1))) 
-	# print("Counts of label '0': {} \n".format(sum(predictions == 0)))
-
-	# print("Accuracy: %f" % accuracy_score(test_labels, predictions))
-	# print(confusion_matrix(test_labels, predictions))
+	allMatrix = getPrediction(fastaLength, mat1, mat2, mat3, mat4, mat5, algo)
 
 
 main()
-
-

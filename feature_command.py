@@ -156,16 +156,23 @@ def toCSV(allMatrix):
 
 
 def main():
+	testFasta = input("Enter input fasta filename: ")
+	algo = input("Enter machine learning algorithm (svm, rf, nb): ")
+
 	# Load the 'xxxxx.fasta' sequence set
-	alphasyn_seq = load_fasta_file("benchmark.fasta")
-	alphasyn_seq1 = load_fasta_file("benchmark.fasta")
+	alphasyn_seq = load_fasta_file(testFasta)
+	alphasyn_seq1 = load_fasta_file(testFasta)
 
 	# Get array of lengths
-	fastaLength = []
+	fastaLength, fastaSeq, fastaID = [], [], []
 
 	for seq in alphasyn_seq1: 
+		# print(seq)
 		fastaLength.append(len(seq.data))
+		fastaSeq.append(seq.data)
+		fastaID.append(seq.identifier)
 
+	print(fastaSeq[0])
 
 	# Set of features
 	fs = FeatureSet("Basic Features")
@@ -199,18 +206,16 @@ def main():
 	test = pd.read_csv("newAllMatrix.csv")
 	test_labels = np.array(test.pop('Labels'))
 
-	my_clf = joblib.load("svm_model.joblib")
-	predictions = my_clf.decision_function(test)
-	pred = np.argmax(predictions)
-	print(pred)
+	my_clf = joblib.load("mnb _model.joblib")
+	predictions = my_clf.predict_proba(test)
+	# pred = np.argmax(predictions)
+	# print(pred)
 
-	# print("Counts of label '1': {}".format(sum(predictions == 1))) 
-	# print("Counts of label '0': {} \n".format(sum(predictions == 0)))
+	# print("Counts of label '1': {}".format(sum(pred == 1))) 
+	# print("Counts of label '0': {} \n".format(sum(pred == 0)))
 
 	# print("Accuracy: %f" % accuracy_score(test_labels, predictions))
 	# print(confusion_matrix(test_labels, predictions))
 
 
 main()
-
-
