@@ -48,11 +48,11 @@ def slidingWindow(allMatrix):
 	fileName = "allMatrix.csv"
 	df.to_csv(fileName, index=False, header = ["ZIMJ680101", "BHAR880101","HOPT810101","GRAR740102","BEGF750102", "Labels"])
 
-	win_size = 9                                                        # Specify the size of the sliding window
+	win_size = 5                                                        # Specify the size of the sliding window
 
 	f = open('allMatrix.csv', 'r')                                    	# name of the file to be processed
 	re = csv.reader(f, quoting=csv.QUOTE_NONE)                          
-	fo = open('allMatrix_w9.csv', 'w')                                    # name of the output file
+	fo = open('allMatrix_w5.csv', 'w')                                    # name of the output file
 	wr = csv.writer(fo, quoting=csv.QUOTE_NONE, lineterminator='\n')
 
 	window = []
@@ -84,7 +84,7 @@ def slidingWindow(allMatrix):
 	f.close()
 	fo.close()
 
-	df = pd.read_csv("allMatrix_w9.csv", skiprows=1)
+	df = pd.read_csv("allMatrix_w5.csv", skiprows=1)
 	df = addColumnName(df)
 	filename = "newAllMatrix.csv"
 	df.to_csv(filename, index=False)
@@ -92,7 +92,7 @@ def slidingWindow(allMatrix):
 
 	if os.path.exists("allMatrix.csv"):
 	  os.remove("allMatrix.csv")
-	  os.remove("allMatrix_w9.csv")
+	  os.remove("allMatrix_w5.csv")
 	else:
 	  print("The file does not exist")
 
@@ -145,7 +145,7 @@ def getPrediction(fastaLength, mat1, mat2, mat3, mat4, mat5, algo):
 		test = pd.read_csv(filename)
 		test_labels = np.array(test.pop('Labels'))
 
-		path = "./Models/balance_" + algo + "_model.joblib"
+		path = "./Models/" algo + "_model.joblib"
 		my_clf = joblib.load(path)
 		predictions = my_clf.predict(test)
 		print(predictions)

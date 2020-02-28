@@ -19,15 +19,19 @@ from joblib import dump, load
 
 from sklearn.model_selection import train_test_split
 
+# Balanced and unbalanced dataset
 # Change file name to desired dataset BALANCED-TRAINING-DATASET-WX.csv or UB-TRAINING-DATASET-WX.csv on Datasets folder.
 # X = window size.
 
-data = pd.read_csv("./Datasets/BALANCED-TRAINING-DATASET-W5.csv") 
-X = data[['ZIMJ680101','BHAR880101','HOPT810101','GRAR740102','BEGF750102']]
-y = data['Labels']
+X_train = pd.read_csv("./Datasets/BALANCED-TRAINING-DATASET-W5.csv")
+y_train = np.array(X_train.pop("Labels"))
 
-# split into 70:30 ration 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state = 50) 
+# Benchmark dataset
+# Change file name to desired dataset TEST-TRAINING-DATASET-WX.csv on Datasets folder.
+# X = window size and must be the same window training window size
+
+X_test = pd.read_csv("./Datasets/TEST-DATASET-W5.csv")
+y_test = np.array(X_test.pop("Labels"))
   
 # describes info about train and test set 
 print("X_train dataset: ", X_train.shape) 
@@ -126,5 +130,3 @@ plt.title('ROC Curve');
 filename = "ROC_CURVES.png" 
 plt.savefig(filename)
 plt.show()
-
-
