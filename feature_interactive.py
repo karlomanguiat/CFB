@@ -52,7 +52,7 @@ def slidingWindow(allMatrix):
 
 	f = open('allMatrix.csv', 'r')                                    	# name of the file to be processed
 	re = csv.reader(f, quoting=csv.QUOTE_NONE)                          
-	fo = open('allMatrix_w3.csv', 'w')                                    # name of the output file
+	fo = open('allMatrix_w9.csv', 'w')                                    # name of the output file
 	wr = csv.writer(fo, quoting=csv.QUOTE_NONE, lineterminator='\n')
 
 	window = []
@@ -145,7 +145,8 @@ def getPrediction(fastaLength, mat1, mat2, mat3, mat4, mat5, algo):
 		test = pd.read_csv(filename)
 		test_labels = np.array(test.pop('Labels'))
 
-		my_clf = joblib.load("./model/balance_rf_model.joblib")
+		path = "./Models/balance_" + algo + "_model.joblib"
+		my_clf = joblib.load(path)
 		predictions = my_clf.predict(test)
 		print(predictions)
 		# predictions = my_clf.predict(test)
