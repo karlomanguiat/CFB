@@ -90,62 +90,79 @@ mat4 = np.matrix(columns(conv_seq, feature="GRAR740102", transpose=True))
 # CONFORMATIONAL PARAMETER OF BETA STRUCTURE
 mat5 = np.matrix(columns(conv_seq, feature="BEGF750102", transpose=True))
 
+# Hydrophobicity (Jones, 1975)
+mat6 = np.matrix(columns(conv_seq, feature="JOND750101", transpose=True))
+
+# Flexibility parameter for no rigid neighbors (Karplus-Schulz, 1985)
+mat7 = np.matrix(columns(conv_seq, feature="KARP850101", transpose=True))
+
+# Hydrophobicity (Prabhakaran, 1990)
+mat8 = np.matrix(columns(conv_seq, feature="PRAM900101", transpose=True))
+
+# Hydrophilicity scale (Kuhn et al., 1995)
+mat9 = np.matrix(columns(conv_seq, feature="KUHL950101", transpose=True))
+
+# Optimal matching hydrophobicity (Sweet-Eisenberg, 1983)
+mat10 = np.matrix(columns(conv_seq, feature="SWER830101", transpose=True))
+
+
+print(mat10)
 # START LOOP HERE
 
-firstIteration = True
-allMatrix = np.array([])
-for k in range(len(fastaLength)):
-	newmat = np.concatenate((mat1[k],mat2[k],mat3[k],mat4[k], mat5[k]))
-	newmat1 = (np.transpose(newmat[:,:fastaLength[k]]))
+# firstIteration = True
+# allMatrix = np.array([])
+# for k in range(len(fastaLength)):
+# 	newmat = np.concatenate((mat1[k],mat2[k],mat3[k],mat4[k], mat5[k]))
+# 	newmat1 = (np.transpose(newmat[:,:fastaLength[k]]))
 
-	# CHANGE EVERY LOOP
+# 	# CHANGE EVERY LOOP
 
-	# y - SORTED INDICES
+# 	# y - SORTED INDICES
 
-	#ADD HERE
-	indice = getLabelIndex(lines[k]) 
+# 	#ADD HERE
+# 	indice = getLabelIndex(lines[k]) 
 
-	# RESET LABELS
-	label = []
+# 	# RESET LABELS
+# 	label = []
 
-	j = 0 
-	for i in range(fastaLength[k]):
-		if(i == indice[j]-1): 
-			label.append(1)
-			if(j != len(indice) - 1):
-				j += 1
-		else: label.append(0)
+# 	j = 0 
+# 	for i in range(fastaLength[k]):
+# 		if(i == indice[j]-1): 
+# 			label.append(1)
+# 			if(j != len(indice) - 1):
+# 				j += 1
+# 		else: label.append(0)
 
-	# Convert to numpy array
-	labels = np.array(label)
+# 	# Convert to numpy array
+# 	labels = np.array(label)
 
-	# Convert column vector
-	col_vec = labels.reshape(-1, 1)
+# 	# Convert column vector
+# 	col_vec = labels.reshape(-1, 1)
 
-	# print(newmat1.shape, col_vec.shape)
-	# print(col_vec)
+# 	# print(newmat1.shape, col_vec.shape)
+# 	# print(col_vec)
 
-	# Combine two matrices
-	finalMatrix = np.append(newmat1, col_vec, axis=1)
+# 	# Combine two matrices
+# 	finalMatrix = np.append(newmat1, col_vec, axis=1)
 
-	if firstIteration: 
-		allMatrix = finalMatrix
-		firstIteration = False
-	else: allMatrix = np.concatenate((allMatrix, finalMatrix))
+# 	if firstIteration: 
+# 		allMatrix = finalMatrix
+# 		firstIteration = False
+# 	else: allMatrix = np.concatenate((allMatrix, finalMatrix))
 
-	print(k)
-	# print(finalMatrix)
+# 	print(k)
+# 	# print(finalMatrix)
 
-	# # END LOOP
+# 	# # END LOOP
 
 
-# SAVE TO CSV
-	# df = pd.DataFrame(finalMatrix)
-	# fileName = "newmat" + str(k+1) + ".csv"
-	# df.to_csv(fileName, index=False, header = ["ZIMJ680101", "BHAR880101","HOPT810101","GRAR740102","BEGF750102", "Labels"])
+# # SAVE TO CSV
+# 	# df = pd.DataFrame(finalMatrix)
+# 	# fileName = "newmat" + str(k+1) + ".csv"
+# 	# df.to_csv(fileName, index=False, header = ["ZIMJ680101", "BHAR880101","HOPT810101","GRAR740102","BEGF750102", "Labels"])
 
-print(allMatrix)
+# print(allMatrix)
 
-df = pd.DataFrame(allMatrix)
-fileName = "newmat.csv"
-df.to_csv(fileName, index=False, header = ["ZIMJ680101", "BHAR880101","HOPT810101","GRAR740102","BEGF750102", "Labels"])
+# df = pd.DataFrame(allMatrix)
+# fileName = "newmat.csv"
+# df.to_csv(fileName, index=False, header = ["ZIMJ680101", "BHAR880101","HOPT810101","GRAR740102","BEGF750102", "Labels"])
