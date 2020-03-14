@@ -34,5 +34,5 @@ for row in re:
 
 window.append(labels[math.ceil(win_size/2)-1])
 wr.writerow(window)
-f.close()
+f.close()                                                           # close
 fo.close()
