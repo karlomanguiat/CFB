@@ -18,6 +18,7 @@ import pandas as pd
 
 
 def getLabelIndex(fromFile):
+	print(fromFile)
 	splitArray = fromFile.split(' ', 1)
 
 	# Remove last element from split
@@ -29,8 +30,8 @@ def getLabelIndex(fromFile):
 
 
 # Load the 'xxxxx.fasta' sequence set
-alphasyn_seq = load_fasta_file("./Sequences/train1-20.fasta")
-alphasyn_seq1 = load_fasta_file("./Sequences/train1-20.fasta")
+alphasyn_seq = load_fasta_file("./Sequences/train157-180.fasta")
+alphasyn_seq1 = load_fasta_file("./Sequences/train157-180.fasta")
 
 # Get array of lengths
 fastaLength, fastaID, count = [],[], 0
@@ -123,7 +124,7 @@ conv_seq = fs(alphasyn_seq)
 
 
 # # OPEN FILE AND READING FILE
-f = open("./Sequences/training_labels2","r")
+f = open("./Sequences/training_labels","r")
 lines = f.readlines()
 # Convert to matrix and print
 
@@ -263,7 +264,6 @@ for k in range(len(fastaLength)):
 	print(fastaLength[k])
 	print(fastaID[k])
 	print("finalmatrix length: %i" % len(finalMatrix))
-	print(lines[k])
 	print("* * * * * * * * * * * * * * * * * * * * * * * * * * * *\n")
 
 
@@ -271,6 +271,6 @@ print(allMatrix)
 print(count, len(allMatrix))
 
 df = pd.DataFrame(allMatrix)
-fileName = "training1-20.csv"
+fileName = "training157-180.csv"
 headerName = ["ZIMJ680101","BHAR880101","HOPT810101","GRAR740102","BEGF750102","JOND750101","KARP850101","PRAM900101","KUHL950101","SWER830101","RADA880108","JANJ780101","ZIMJ680103","BEGF750103","ARGP820101","RADA880106","JANJ780101","CHOP780101","VINM940102","KARP850102","KARP850103","VINM940103","VINM940104", "Labels"]
 df.to_csv(fileName, index = False, header = headerName)
