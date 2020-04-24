@@ -80,6 +80,5 @@ labels = mycsv['Labels']
 print("Before OverSampling, counts of label '1': {}".format(sum(labels == 1))) 
 print("Before OverSampling, counts of label '0': {} \n".format(sum(labels == 0))) 
 
-print("Hello!")
-print("Hello again!")
+
 
