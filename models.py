@@ -6,8 +6,7 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression 
 from sklearn.preprocessing import StandardScaler 
 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, roc_auc_score, roc_curve
-from sklearn.naive_bayes import GaussianNB
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.model_selection import train_test_split 
 from sklearn.ensemble import RandomForestClassifier, BaggingClassifier
 from sklearn.multiclass import OneVsRestClassifier
@@ -122,7 +121,7 @@ plt.plot(svm_fpr, svm_tpr, 'black', label = 'SVM')
 plt.legend()
 plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
-plt.title('ROC Curve');
+plt.title('ROC Curve')
 filename = "ROC_CURVES.png" 
 plt.savefig(filename)
 plt.show()
