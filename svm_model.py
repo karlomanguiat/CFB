@@ -27,6 +27,10 @@ svm_auc = roc_auc_score(y_test, svm_probs)
 
 print("SVM - Accuracy: %f" % accuracy_score(y_test, model3.predict(X_test))) 
 print("SVM - AUC score: %f" % svm_auc)
+print("SVM - Classification Report")
+print(classification_report(y_test, model3.predict(X_test)))
+
+base_fpr, base_tpr, _ = roc_curve(y_test, [1 for _ in range(len(y_test))])
 
 svm_fpr, svm_tpr, _ = roc_curve(y_test, svm_probs)
 
