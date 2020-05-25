@@ -21,7 +21,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, rando
 n_estimators = 3
 
 print("Developing SVM models....")
-model3 = OneVsRestClassifier(BaggingClassifier(NuSVC(nu = nu, max_iter = 100000), max_samples=1.0 / n_estimators, n_estimators=n_estimators))
+model3 = OneVsRestClassifier(BaggingClassifier(LinearSVC(class_weight='balanced', max_iter = 100000), max_samples=1.0 / n_estimators, n_estimators=n_estimators))
 print("Fitting SVM models....")
 model3.fit(X_train, y_train)
 
