@@ -31,12 +31,14 @@ print("SVM - Accuracy: %f" % accuracy_score(y_test, model3.predict(X_test)))
 print("SVM - AUC score: %f" % svm_auc)
 print(classification_report(y_test, model3.predict(X_test)))
 
+base_fpr, base_tpr, _ = roc_curve(y_test, [1 for _ in range(len(y_test))])
 svm_fpr, svm_tpr, _ = roc_curve(y_test, svm_probs)
 
 plt.style.use('fivethirtyeight')
 plt.figure(figsize = (8, 6))
 plt.rcParams['font.size'] = 11
-plt.plot(svm_fpr, svm_tpr, 'black', label = 'SVM')
+plt.plot(base_fpr, base_tpr, 'red', label = 'baseline')
+plt.plot(svm_fpr, svm_tpr, 'blue', label = 'SVM')
 
 plt.legend()
 plt.xlabel('False Positive Rate')
