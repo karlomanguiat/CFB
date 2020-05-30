@@ -28,7 +28,7 @@ y = data.iloc[:, -1]
 
 result = []
 for i in range(0, iterations):
-    print("Run %d", i+1)
+    print("Run ", i+1)
     start_time = time.process_time()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state = 50)
 
