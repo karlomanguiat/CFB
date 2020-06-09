@@ -30,8 +30,8 @@ def getLabelIndex(fromFile):
 
 
 # Load the 'xxxxx.fasta' sequence set
-alphasyn_seq = load_fasta_file("./Sequences/train157-180.fasta")
-alphasyn_seq1 = load_fasta_file("./Sequences/train157-180.fasta")
+alphasyn_seq = load_fasta_file("./Benchmark/benchmark3.fasta")
+alphasyn_seq1 = load_fasta_file("./Benchmark/benchmark3.fasta")
 
 # Get array of lengths
 fastaLength, fastaID, count = [],[], 0
@@ -124,7 +124,7 @@ conv_seq = fs(alphasyn_seq)
 
 
 # # OPEN FILE AND READING FILE
-f = open("./Sequences/training_labels","r")
+f = open("./Benchmark/benchmark_labels","r")
 lines = f.readlines()
 # Convert to matrix and print
 
@@ -175,9 +175,6 @@ mat15 = np.matrix(columns(conv_seq, feature="ARGP820101", transpose=True))
 
 # Accessible surface area (Radzicka-Wolfenden, 1988)
 mat16 = np.matrix(columns(conv_seq, feature="RADA880106", transpose=True))
-
-# Average accessible surface area (Janin et al., 1978)
-mat17 = np.matrix(columns(conv_seq, feature="JANJ780101", transpose=True))
 
 # Normalized frequency of beta-turn (Chou-Fasman, 1978a)
 mat18 = np.matrix(columns(conv_seq, feature="CHOP780101", transpose=True))
@@ -230,10 +227,10 @@ mat23 = np.matrix(columns(conv_seq, feature="VINM940104", transpose=True))
 firstIteration = True
 allMatrix = np.array([])
 for k in range(len(fastaLength)):
-	newmat = np.concatenate((mat1[k], mat2[k], mat3[k], mat4[k], mat5[k], mat6[k], mat7[k], mat8[k], mat9[k], mat10[k], mat11[k], mat12[k], mat13[k], mat14[k], mat15[k], mat16[k], mat17[k], mat18[k], mat19[k], mat20[k], mat21[k], mat22[k], mat23[k]))
+	newmat = np.concatenate((mat1[k], mat2[k], mat3[k], mat4[k], mat5[k], mat6[k], mat7[k], mat8[k], mat9[k], mat10[k], mat11[k], mat12[k], mat13[k], mat14[k], mat15[k], mat16[k], mat18[k], mat19[k], mat20[k], mat21[k], mat22[k], mat23[k]))
 	newmat1 = (np.transpose(newmat[:,:fastaLength[k]]))
 
-	indice = getLabelIndex(lines[k]) 
+	indice = getLabelIndex(lines[k+40]) 
 
 	# RESET LABELS
 	label = []
@@ -271,8 +268,8 @@ print(allMatrix)
 print(count, len(allMatrix))
 
 df = pd.DataFrame(allMatrix)
-fileName = "training157-180.csv"
-headerName = ["ZIMJ680101","BHAR880101","HOPT810101","GRAR740102","BEGF750102","JOND750101","KARP850101","PRAM900101","KUHL950101","SWER830101","RADA880108","JANJ780101","ZIMJ680103","BEGF750103","ARGP820101","RADA880106","JANJ780101","CHOP780101","KARP850102","KARP850103","VINM940102","VINM940103","VINM940104", "Labels"]
+fileName = "benchmark3.csv"
+headerName = ["ZIMJ680101","BHAR880101","HOPT810101","GRAR740102","BEGF750102","JOND750101","KARP850101","PRAM900101","KUHL950101","SWER830101","RADA880108","JANJ780101","ZIMJ680103","BEGF750103","ARGP820101","RADA880106","CHOP780101","KARP850102","KARP850103","VINM940102","VINM940103","VINM940104", "Labels"]
 df.to_csv(fileName, index = False, header = headerName)
 
 print("Hello!")
