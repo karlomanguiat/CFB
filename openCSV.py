@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # mycsv.to_csv('fs-dataset.csv', index = False)
 
-data = pd.read_csv("./Feature Selection/fs-dataset.csv")
+data = pd.read_csv("./benchmark-dataset.csv")
 
 print(data)
 
@@ -34,15 +34,15 @@ X_train_res, y_train_res = sm.fit_sample(data, y.ravel())
 print("After OverSampling, counts of label '1': {}".format(sum(y_train_res == 1))) 
 print("After OverSampling, counts of label '0': {} \n".format(sum(y_train_res == 0))) 
 
-print(X_train_res)
-print(y_train_res)
+# print(X_train_res)
+# print(y_train_res)
 
 X_train_res['Labels'] = y_train_res
 
-print(X_train_res)
+# print(X_train_res)
 
-X_train_res.to_csv('bl-fs-dataset.csv', index = False)
+X_train_res.to_csv('balanced-benchmark-dataset.csv', index = False)
 
-data = pd.read_csv("bl-fs-dataset.csv")
+data = pd.read_csv("balanced-benchmark-dataset.csv")
 
-print(data)
+# print(data)
